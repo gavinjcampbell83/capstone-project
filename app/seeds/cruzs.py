@@ -35,8 +35,8 @@ def seed_cruzs():
     )
 
     cruz_3 = Cruz(
-        name="Hollywood Hills Hike",
-        description="Take a hike through the iconic Hollywood Hills.",
+        name="Hollywood Hills Cruz",
+        description="Take a ride through the iconic Hollywood Hills.",
         latitude=34.1177,
         longitude=-118.3520,
         route_path=[
