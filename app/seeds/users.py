@@ -7,6 +7,8 @@ def seed_users():
     demo = User(
         username='Demo',
         email='demo@aa.io',
+        first_name='Demo',
+        last_name='User',
         password='password',
         profile_picture='https://example.com/demo-profile.jpg',
         bio="Demo user for the application.",
@@ -22,6 +24,8 @@ def seed_users():
     marnie = User(
         username='marnie',
         email='marnie@aa.io',
+        first_name='Marnie',
+        last_name='Smith',
         password='password',
         profile_picture='https://example.com/marnie-profile.jpg',
         bio="Nature enthusiast and avid hiker.",
@@ -37,6 +41,8 @@ def seed_users():
     bobbie = User(
         username='bobbie',
         email='bobbie@aa.io',
+        first_name='Bobbie',
+        last_name='Johnson',
         password='password',
         profile_picture='https://example.com/bobbie-profile.jpg',
         bio="Photographer and travel lover.",

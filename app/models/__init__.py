@@ -6,3 +6,4 @@ from .favorite import Favorite
 from .follower import Follower
 from .review import Review
 from .review_image import ReviewImage
+from .cruz_image import CruzImage

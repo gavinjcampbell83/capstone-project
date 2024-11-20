@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Cruz(db.Model):
-    __tablename__ = 'cruzs'
+    __tablename__ = 'cruz'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -19,7 +19,7 @@ class Cruz(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    creator = db.relationship('User', back_populates='cruzs')
+    creator = db.relationship('User', back_populates='cruz')
     reviews = db.relationship('Review', back_populates='cruz', cascade='all, delete-orphan')
     favorites = db.relationship('Favorite', back_populates='cruz', cascade='all, delete-orphan')
     images = db.relationship('CruzImage', back_populates='cruz', cascade='all, delete-orphan')

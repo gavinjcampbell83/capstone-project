@@ -12,7 +12,7 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     cruz_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('cruz.id')), nullable=False)
-    rating = db.Column(db.Integer, nullable=False, check=db.CheckConstraint('rating BETWEEN 1 AND 5'))
+    rating = db.Column(db.Integer, nullable=False)
     review_text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
