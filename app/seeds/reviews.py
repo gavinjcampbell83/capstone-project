@@ -2,7 +2,6 @@ from app.models import db, Review, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
 
-# Adds demo reviews
 def seed_reviews():
     review_1 = Review(
         user_id=1,

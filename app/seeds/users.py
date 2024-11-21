@@ -2,7 +2,6 @@ from app.models import db, User, environment, SCHEMA
 from sqlalchemy.sql import text
 from datetime import datetime
 
-
 def seed_users():
     demo = User(
         username='Demo',

@@ -16,7 +16,6 @@ const images = [
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
-  console.log('USER', user)
   const navigate = useNavigate();
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

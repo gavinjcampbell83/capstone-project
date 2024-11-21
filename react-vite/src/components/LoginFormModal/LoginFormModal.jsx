@@ -14,18 +14,17 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const serverResponse = await dispatch(
+    const resultAction = await dispatch(
       thunkLogin({
         email,
         password,
       })
     );
-
-    if (serverResponse) {
-      setErrors(serverResponse);
-    } else {
+  
+    if (thunkLogin.fulfilled.match(resultAction)) {
       closeModal();
-      window.location.reload();
+    } else {
+      setErrors(resultAction.payload || { server: "An unexpected error occurred." }); // Set errors if login failed
     }
   };
 

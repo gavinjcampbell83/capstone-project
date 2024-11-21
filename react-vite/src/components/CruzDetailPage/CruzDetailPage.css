@@ -1,0 +1,93 @@
+.cruz-detail-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.cruz-header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.cruz-header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.cruz-header p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.content-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.images-section {
+    flex: 1;
+}
+
+.primary-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.secondary-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.secondary-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.map-section {
+    flex: 1;
+    text-align: center;
+}
+
+.map-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.description-section {
+    margin-bottom: 30px;
+}
+
+.description-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.description-section p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.review-section {
+    margin-top: 40px;
+}
+
+.review-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.review {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.review p {
+    margin: 5px 0;
+}

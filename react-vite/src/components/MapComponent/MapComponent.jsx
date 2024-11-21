@@ -1,39 +1,30 @@
-import { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Polyline } from '@react-google-maps/api';
 
-const MapComponent = () => {
-    const [center, setCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Default to San Francisco
-
-    useEffect(() => {
-        // Check if Geolocation is available
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
-                    setCenter({ lat: latitude, lng: longitude });
-                },
-                (error) => {
-                    console.error('Error fetching location:', error);
-                    // Optionally, fallback to a default location
-                }
-            );
-        } else {
-            console.error('Geolocation is not supported by this browser.');
-        }
-    }, []); // Empty dependency array to run only once
-
+const MapComponent = ({ center, routePath }) => {
     const mapContainerStyle = {
-        width: '50%',
+        width: '100%',
         height: '400px',
     };
-
+    console.log('Received Route Path:', routePath);
     return (
         <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 center={center}
-                zoom={10}
-            />
+                zoom={12}
+            >
+                {routePath && (
+                    console.log('Polyline rendered with path:', routePath),
+                    <Polyline
+                        path={routePath}
+                        options={{
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1,
+                            strokeWeight: 4,
+                        }}
+                    />
+                )}
+            </GoogleMap>
         </LoadScript>
     );
 };

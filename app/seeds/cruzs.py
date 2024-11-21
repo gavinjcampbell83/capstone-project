@@ -16,7 +16,8 @@ def seed_cruzs():
         ],
         created_by=1,
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        difficulty="Easy"
     )
 
     cruz_2 = Cruz(
@@ -31,7 +32,8 @@ def seed_cruzs():
         ],
         created_by=2,
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        difficulty="Easy"
     )
 
     cruz_3 = Cruz(
@@ -46,7 +48,8 @@ def seed_cruzs():
         ],
         created_by=3,
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
+        difficulty="Hard"
     )
 
     db.session.add(cruz_1)

@@ -16,6 +16,7 @@ class Cruz(db.Model):
     route_path = db.Column(db.JSON, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
+    difficulty = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -25,6 +26,11 @@ class Cruz(db.Model):
     images = db.relationship('CruzImage', back_populates='cruz', cascade='all, delete-orphan')
 
     def to_dict(self):
+        if self.reviews:
+            average_rating = round(sum(review.rating for review in self.reviews) / len(self.reviews), 1)
+        else:
+            average_rating = None
+
         return {
             "id": self.id,
             "name": self.name,
@@ -37,5 +43,6 @@ class Cruz(db.Model):
             "updated_at": self.updated_at.isoformat(),
             "creator": self.creator.to_dict() if self.creator else None,
             "reviews": [review.to_dict() for review in self.reviews],
-            "images": [image.to_dict() for image in self.images]
+            "images": [image.to_dict() for image in self.images],
+            "rating": average_rating,
         }

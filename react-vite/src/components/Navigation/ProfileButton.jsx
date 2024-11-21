@@ -43,7 +43,6 @@ function ProfileButton() {
 
     .then(() => {
       closeMenu();
-      window.location.href='/'
     })
   };
 
@@ -59,7 +58,7 @@ function ProfileButton() {
               <li className="profile-username">{user.username}</li>
               <li className="profile-email">{user.email}</li>
               <li>
-                <Link to="/products/manage">Manage Products</Link>
+                <Link to="/products/manage">Manage Cruz</Link>
               </li>
               <li>
                 <Link to="/products/new">Create New</Link>

@@ -2,7 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
-import MapComponent from '../components/MapComponent/MapComponent';
+import CruzTiles from '../components/CruzTiles/CruzTiles';
+import CruzDetailPage from '../components/CruzDetailPage/CruzDetailPage';
+// import MapComponent from '../components/MapComponent/MapComponent';
 
 export const router = createBrowserRouter([
   {
@@ -10,8 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        // element: <h1>Welcome!</h1>,
-        element: <div><MapComponent /></div>
+        element: <CruzTiles />,
       },
       {
         path: "login",
@@ -20,6 +21,14 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "/cruz/:id",
+        element: <CruzDetailPage />,
+      },
+      {
+        path: "*",
+        element: <h1>Page Does Not Exist</h1>,
       },
     ],
   },
