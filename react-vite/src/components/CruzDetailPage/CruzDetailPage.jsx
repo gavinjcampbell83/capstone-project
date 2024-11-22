@@ -62,7 +62,16 @@ function CruzDetailPage() {
             </section>
 
             <section className="review-section">
-                <h3>{`⭐ ${cruzDetails.rating} • ${cruzDetails.reviews.length} Reviews`}</h3>
+            <h3>
+                ⭐ {cruzDetails.reviews.length > 0 ? (
+                <>
+                    {cruzDetails.rating} • {cruzDetails.reviews.length}{' '}
+                    {cruzDetails.reviews.length === 1 ? 'Review' : 'Reviews'}
+                </>
+                ) : (
+                <>New</> // Display "New" if there are no reviews
+                 )}
+            </h3>
 
                 {currentUser && !isCruzOwner && !userHasPostedReview && (
                     <OpenModalButton

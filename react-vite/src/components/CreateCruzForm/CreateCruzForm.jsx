@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { createCruz } from '../../redux/cruzSlice';
 import './CreateCruzForm.css';
@@ -14,15 +14,26 @@ function CreateCruzForm() {
   const [difficulty, setDifficulty] = useState('');
   const [routePath, setRoutePath] = useState('');
   const [errors, setErrors] = useState([]);
+  const user = useSelector((state) => state.session.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
 
-    const routePoints = routePath.split(';').map((point) => {
-      const [lat, lng] = point.split(',').map(Number);
-      return { lat, lng };
-    });
+    const routePoints = routePath
+        .split(';') // Split by semicolon
+        .map((point) => {
+          const [lat, lng] = point.split(',').map((coord) => parseFloat(coord.trim())); // Split by comma and trim spaces
+          if (isNaN(lat) || isNaN(lng)) {
+            throw new Error('Invalid coordinates');
+          }
+          return { lat, lng }; // Create { lat, lng } object
+        });
+
+    if (routePoints.length < 2) {
+            setErrors(['Route path must have at least 2 points']);
+            return;
+        }
 
     const cruzData = {
       name,
@@ -31,6 +42,7 @@ function CreateCruzForm() {
       longitude: parseFloat(longitude),
       difficulty,
       route_path: routePoints,
+      created_by: user.id,
     };
 
     const result = await dispatch(createCruz(cruzData));
