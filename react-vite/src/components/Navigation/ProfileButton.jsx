@@ -58,10 +58,10 @@ function ProfileButton() {
               <li className="profile-username">{user.username}</li>
               <li className="profile-email">{user.email}</li>
               <li>
-                <Link to="/products/manage">Manage Cruz</Link>
+                <Link to="/cruz/manage">Manage Cruz</Link>
               </li>
               <li>
-                <Link to="/products/new">Create New</Link>
+                <Link to="/cruz/new">Create New</Link>
               </li>
               <li>
                 <button className="logout-button" onClick={logout}>Log Out</button>

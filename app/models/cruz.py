@@ -45,4 +45,5 @@ class Cruz(db.Model):
             "reviews": [review.to_dict() for review in self.reviews],
             "images": [image.to_dict() for image in self.images],
             "rating": average_rating,
+            "difficulty": self.difficulty,
         }

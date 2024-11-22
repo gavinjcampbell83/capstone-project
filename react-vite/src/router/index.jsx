@@ -4,6 +4,7 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import CruzTiles from '../components/CruzTiles/CruzTiles';
 import CruzDetailPage from '../components/CruzDetailPage/CruzDetailPage';
+import CreateCruzForm from '../components/CreateCruzForm/CreateCruzForm';
 // import MapComponent from '../components/MapComponent/MapComponent';
 
 export const router = createBrowserRouter([
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/cruz/:id",
         element: <CruzDetailPage />,
+      },
+      {
+        path: "/cruz/new",
+        element: <CreateCruzForm />,
       },
       {
         path: "*",

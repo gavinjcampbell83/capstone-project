@@ -34,6 +34,27 @@ export const fetchCruzDetails = createAsyncThunk(
   }
 );
 
+export const createCruz = createAsyncThunk(
+  'cruz/createCruz',
+  async (cruzData, { rejectWithValue }) => {
+    try {
+      const response = await fetch('/api/cruz/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cruzData),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const cruzSlice = createSlice({
   name: 'cruz',
   initialState: {
@@ -71,6 +92,20 @@ const cruzSlice = createSlice({
       .addCase(fetchCruzDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to fetch Cruz details';
+      })
+
+      // Create Cruz
+      .addCase(createCruz.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createCruz.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cruzList.push(action.payload);
+      })
+      .addCase(createCruz.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to create Cruz';
       });
   },
 });
