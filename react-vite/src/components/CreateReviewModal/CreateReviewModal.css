@@ -1,0 +1,53 @@
+.review-modal-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.review-modal-container h2 {
+    margin-bottom: 20px;
+
+}
+
+.review-modal-container textarea {
+    width: 95%;
+    height: 100px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.star-rating span {
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #ccc;
+}
+
+
+
+.star-rating .filled {
+    color: #000000;
+}
+
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.error {
+    color: red;
+}
