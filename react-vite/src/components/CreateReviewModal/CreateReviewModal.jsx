@@ -7,7 +7,7 @@ import { useModal } from '../../context/Modal';
 
 function CreateReviewForm({ cruzId }) {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.session); // Assuming session state has the user
+  const { user } = useSelector((state) => state.session);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [hoveredStars, setHoveredStars] = useState(0);
@@ -73,7 +73,7 @@ function CreateReviewForm({ cruzId }) {
               key={star}
               onMouseEnter={() => setHoveredStars(star)}
               onMouseLeave={() => setHoveredStars(0)}
-              onClick={() => setRating(star)} // Set the rating to the clicked star
+              onClick={() => setRating(star)}
               className={star <= (hoveredStars || rating) ? 'filled' : 'empty'}
             >
               ★

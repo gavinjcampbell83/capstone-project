@@ -10,7 +10,7 @@ export const fetchReviews = createAsyncThunk(
           return rejectWithValue(errorData);
         }
         const data = await response.json();
-        return data; // Returns the list of reviews
+        return data;
       } catch (error) {
         return rejectWithValue(error.message);
       }
@@ -48,7 +48,7 @@ export const deleteReview = createAsyncThunk(
                 const error = await response.json();
                 return rejectWithValue(error);
             }
-            return reviewId; // Return the deleted review ID for state update
+            return reviewId;
         } catch (error) {
             return rejectWithValue(error.message);
         }

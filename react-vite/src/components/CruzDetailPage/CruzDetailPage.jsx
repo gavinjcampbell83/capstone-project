@@ -36,13 +36,11 @@ function CruzDetailPage() {
 
     return (
         <div className="cruz-detail-page">
-            {/* Header Section */}
             <header className="cruz-header">
                 <h1>{cruzDetails.name}</h1>
                 <p>{`${cruzDetails.creator.city}, ${cruzDetails.creator.state}, ${cruzDetails.creator.country}`}</p>
             </header>
 
-            {/* Content Section */}
             <section className="content-section">
                 <div className="images-section">
                     <img src={primaryImage} alt={cruzDetails.name} className="primary-image" />
@@ -58,17 +56,14 @@ function CruzDetailPage() {
                 </div>
             </section>
 
-            {/* Description Section */}
             <section className="description-section">
                 <h2>Description</h2>
                 <p>{cruzDetails.description}</p>
             </section>
 
-            {/* Review Section */}
             <section className="review-section">
                 <h3>{`⭐ ${cruzDetails.rating} • ${cruzDetails.reviews.length} Reviews`}</h3>
 
-                {/* Post Review Button */}
                 {currentUser && !isCruzOwner && !userHasPostedReview && (
                     <OpenModalButton
                         buttonText="Post Your Review"
@@ -76,7 +71,6 @@ function CruzDetailPage() {
                     />
                 )}
 
-                {/* Reviews List */}
                 <div className="reviews-list">
                     {reviews.length > 0 ? (
                         reviews
@@ -95,7 +89,6 @@ function CruzDetailPage() {
                                         <p>{review.review_text}</p>
                                     </div>
 
-                                    {/* Update/Delete Buttons for User's Review */}
                                     {currentUser?.id === review.user_id && (
                                         <div className="review-actions">
                                             <OpenModalButton

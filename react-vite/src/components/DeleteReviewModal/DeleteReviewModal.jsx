@@ -9,10 +9,9 @@ function DeleteReviewModal({ reviewId, cruzId }) {
     const { closeModal } = useModal();
 
     const handleDelete = async () => {
-        // Dispatch deleteReview and refresh Cruz details
         await dispatch(deleteReview(reviewId));
         await dispatch(fetchCruzDetails(cruzId));
-        closeModal(); // Close the modal after deletion
+        closeModal();
     };
 
     return (

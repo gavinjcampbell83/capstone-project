@@ -42,7 +42,6 @@ function Navigation() {
       <ul className="nav-bar-elements">
         <li className="logo-container">
           <NavLink className="icon-container" to="/">
-            {/* <span className="logo-text">Cruz</span> */}
             <OnewheelIcon/>
             <span className="tooltip-text">Home</span>
           </NavLink>
