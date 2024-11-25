@@ -9,10 +9,11 @@ function CreateCruzForm() {
   const { closeModal } = useModal();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+  const [startLat, setStartLat] = useState('');
+  const [startLng, setStartLng] = useState('');
+  const [endLat, setEndLat] = useState('');
+  const [endLng, setEndLng] = useState('');
   const [difficulty, setDifficulty] = useState('');
-  const [routePath, setRoutePath] = useState('');
   const [errors, setErrors] = useState([]);
   const user = useSelector((state) => state.session.user);
 
@@ -20,28 +21,25 @@ function CreateCruzForm() {
     e.preventDefault();
     setErrors([]);
 
-    const routePoints = routePath
-        .split(';') // Split by semicolon
-        .map((point) => {
-          const [lat, lng] = point.split(',').map((coord) => parseFloat(coord.trim())); // Split by comma and trim spaces
-          if (isNaN(lat) || isNaN(lng)) {
-            throw new Error('Invalid coordinates');
-          }
-          return { lat, lng }; // Create { lat, lng } object
-        });
+    // Validate inputs
+    if (!startLat || !startLng || !endLat || !endLng) {
+      setErrors(['All latitude and longitude fields are required.']);
+      return;
+    }
 
-    if (routePoints.length < 2) {
-            setErrors(['Route path must have at least 2 points']);
-            return;
-        }
+    if (startLat === endLat && startLng === endLng) {
+      setErrors(['Start and end points cannot be the same.']);
+      return;
+    }
 
     const cruzData = {
       name,
       description,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
+      start_lat: parseFloat(startLat),
+      start_lng: parseFloat(startLng),
+      end_lat: parseFloat(endLat),
+      end_lng: parseFloat(endLng),
       difficulty,
-      route_path: routePoints,
       created_by: user.id,
     };
 
@@ -83,22 +81,42 @@ function CreateCruzForm() {
           />
         </label>
         <label>
-          Latitude:
+          Start Latitude:
           <input
             type="number"
             step="0.0001"
-            value={latitude}
-            onChange={(e) => setLatitude(e.target.value)}
+            value={startLat}
+            onChange={(e) => setStartLat(e.target.value)}
             required
           />
         </label>
         <label>
-          Longitude:
+          Start Longitude:
           <input
             type="number"
             step="0.0001"
-            value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
+            value={startLng}
+            onChange={(e) => setStartLng(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          End Latitude:
+          <input
+            type="number"
+            step="0.0001"
+            value={endLat}
+            onChange={(e) => setEndLat(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          End Longitude:
+          <input
+            type="number"
+            step="0.0001"
+            value={endLng}
+            onChange={(e) => setEndLng(e.target.value)}
             required
           />
         </label>
@@ -107,21 +125,13 @@ function CreateCruzForm() {
           <select
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
+            required
           >
             <option value="">Select Difficulty</option>
             <option value="Easy">Easy</option>
             <option value="Moderate">Moderate</option>
             <option value="Hard">Hard</option>
           </select>
-        </label>
-        <label>
-          Route Path (format: `lat,lng;lat,lng`):
-          <textarea
-            value={routePath}
-            onChange={(e) => setRoutePath(e.target.value)}
-            placeholder="37.7749,-122.4194;37.8044,-122.2712"
-            required
-          />
         </label>
         <button type="submit">Create Cruz</button>
       </form>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCruzDetails } from '../../redux/cruzSlice';
@@ -15,19 +15,22 @@ function CruzDetailPage() {
     const dispatch = useDispatch();
     const { cruzDetails, loading, error } = useSelector((state) => state.cruz);
     const currentUser = useSelector((state) => state.session.user);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchCruzDetails(id));
-        dispatch(fetchReviews(id));
+        async function fetchData() {
+            await dispatch(fetchCruzDetails(id));
+            await dispatch(fetchReviews(id));
+            setDataLoaded(true); // Indicate that data is fully loaded
+        }
+        fetchData();
     }, [dispatch, id]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading || !dataLoaded) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     if (!cruzDetails) return <div>No Cruz details available.</div>;
 
-    const { latitude, longitude, route_path, reviews } = cruzDetails;
-    const center = { lat: latitude, lng: longitude };
-
+    const { start_lat, start_lng, end_lat, end_lng, reviews } = cruzDetails;
     const primaryImage = cruzDetails.images.find((img) => img.is_primary)?.image_url || 'default-image.jpg';
     const secondaryImages = cruzDetails.images.filter((img) => !img.is_primary).slice(0, 4);
 
@@ -52,7 +55,16 @@ function CruzDetailPage() {
                 </div>
                 <div className="map-section">
                     <h2>Route Map</h2>
-                    <MapComponent center={center} routePath={route_path} />
+                    {start_lat && start_lng && end_lat && end_lng ? (
+                    <MapComponent
+                        startLat={start_lat}
+                        startLng={start_lng}
+                        endLat={end_lat}
+                        endLng={end_lng}
+                    />
+                ) : (
+                    <p>Map data is not available.</p>
+                )}
                 </div>
             </section>
 
@@ -69,7 +81,7 @@ function CruzDetailPage() {
                     {cruzDetails.reviews.length === 1 ? 'Review' : 'Reviews'}
                 </>
                 ) : (
-                <>New</> // Display "New" if there are no reviews
+                <>New</>
                  )}
             </h3>
 

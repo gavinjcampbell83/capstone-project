@@ -29,9 +29,11 @@ def create_cruz():
         cruz = Cruz(
             name=data['name'],
             description=data['description'],
-            latitude=data['latitude'],
-            longitude=data['longitude'],
-            route_path=data['route_path'],
+            start_lat=data['start_lat'],
+            start_lng=data['start_lng'],
+            end_lat=data['end_lat'],
+            end_lng=data['end_lng'],
+            difficulty=data['difficulty'],
             created_by=data['created_by']
         )
         db.session.add(cruz)
@@ -52,9 +54,11 @@ def update_cruz(cruz_id):
     try:
         cruz.name = data.get('name', cruz.name)
         cruz.description = data.get('description', cruz.description)
-        cruz.latitude = data.get('latitude', cruz.latitude)
-        cruz.longitude = data.get('longitude', cruz.longitude)
-        cruz.route_path = data.get('route_path', cruz.route_path)
+        cruz.start_lat = data.get('start_lat', cruz.start_lat)
+        cruz.start_lng = data.get('start_lng', cruz.start_lng)
+        cruz.end_lat = data.get('end_lat', cruz.end_lat)
+        cruz.end_lng = data.get('end_lng', cruz.end_lng)
+        cruz.difficulty = data.get('difficulty', cruz.difficulty)
         db.session.commit()
         return jsonify(cruz.to_dict()), 200
     except SQLAlchemyError as e:

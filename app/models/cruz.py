@@ -13,9 +13,10 @@ class Cruz(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    route_path = db.Column(db.JSON, nullable=False)
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
+    start_lat = db.Column(db.Float, nullable=False)
+    start_lng = db.Column(db.Float, nullable=False)
+    end_lat = db.Column(db.Float, nullable=False)
+    end_lng = db.Column(db.Float, nullable=False)
     difficulty = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -35,9 +36,10 @@ class Cruz(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "route_path": self.route_path,
+            "start_lat": self.start_lat,
+            "start_lng": self.start_lng,
+            "end_lat": self.end_lat,
+            "end_lng": self.end_lng,
             "created_by": self.created_by,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
