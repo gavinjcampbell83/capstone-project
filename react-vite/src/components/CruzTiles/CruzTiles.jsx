@@ -26,8 +26,8 @@ function CruzTiles() {
               ? (cruz.reviews.reduce((sum, review) => sum + review.rating, 0) / cruz.reviews.length).toFixed(1)
               : 'New';
   
-              const city = cruz.creator?.city || 'Unknown City';
-              const state = cruz.creator?.state || 'Unknown State';
+              const city = cruz.city || 'Unknown City';
+              const state = cruz.state || 'Unknown State';
 
             return (
               <div className="cruz-tile" 

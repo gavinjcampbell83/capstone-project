@@ -41,7 +41,7 @@ function CruzDetailPage() {
         <div className="cruz-detail-page">
             <header className="cruz-header">
                 <h1>{cruzDetails.name}</h1>
-                <p>{`${cruzDetails.creator.city}, ${cruzDetails.creator.state}, ${cruzDetails.creator.country}`}</p>
+                <p>{`${cruzDetails.city}, ${cruzDetails.state}`}</p>
             </header>
 
             <section className="content-section">

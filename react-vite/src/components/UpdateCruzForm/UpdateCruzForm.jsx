@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../context/Modal';
-import { createCruz, addCruzImageThunk, deleteCruzThunk } from '../../redux/cruzSlice';
-import './CreateCruzForm.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchCruzDetails, updateCruzThunk, updateCruzImageThunk } from '../../redux/cruzSlice';
+import './UpdateCruzForm.css';
 
-function CreateCruzForm() {
+function UpdateCruzForm() {
+  const { id } = useParams(); // Get Cruz ID from route params
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { closeModal } = useModal();
-  const user = useSelector((state) => state.session.user);
+
+  const { cruzDetails, loading, error } = useSelector((state) => state.cruz);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -17,11 +17,35 @@ function CreateCruzForm() {
   const [startLng, setStartLng] = useState('');
   const [endLat, setEndLat] = useState('');
   const [endLng, setEndLng] = useState('');
+  const [difficulty, setDifficulty] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [difficulty, setDifficulty] = useState('');
   const [previewImageFile, setPreviewImageFile] = useState(null);
+  const [existingImageId, setExistingImageId] = useState(null); // For tracking the primary image
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    dispatch(fetchCruzDetails(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (cruzDetails) {
+      setName(cruzDetails.name || '');
+      setDescription(cruzDetails.description || '');
+      setStartLat(cruzDetails.start_lat || '');
+      setStartLng(cruzDetails.start_lng || '');
+      setEndLat(cruzDetails.end_lat || '');
+      setEndLng(cruzDetails.end_lng || '');
+      setDifficulty(cruzDetails.difficulty || '');
+      setCity(cruzDetails.city || '');
+      setState(cruzDetails.state || '');
+
+      const primaryImage = cruzDetails.images.find((img) => img.is_primary);
+      if (primaryImage) {
+        setExistingImageId(primaryImage.id);
+      }
+    }
+  }, [cruzDetails]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -30,20 +54,17 @@ function CreateCruzForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
+
     const validationErrors = {};
 
-    // Validate required fields
     if (!name) validationErrors.name = 'Name is required.';
     if (!description) validationErrors.description = 'Description is required.';
     if (!startLat || !startLng || !endLat || !endLng)
       validationErrors.coordinates = 'All latitude and longitude fields are required.';
     if (startLat === endLat && startLng === endLng)
       validationErrors.coordinates = 'Start and end points cannot be the same.';
-    if (!city) validationErrors.city = 'City is required.';
-    if (!state) validationErrors.state = 'State is required.';
     if (!difficulty) validationErrors.difficulty = 'Difficulty is required.';
-    if (!previewImageFile) validationErrors.previewImage = 'Preview image is required.';
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -56,41 +77,42 @@ function CreateCruzForm() {
       start_lng: parseFloat(startLng),
       end_lat: parseFloat(endLat),
       end_lng: parseFloat(endLng),
+      difficulty,
       city,
       state,
-      difficulty,
-      created_by: user.id,
     };
 
-    const cruzResult = await dispatch(createCruz(cruzData));
-    if (cruzResult.error) {
-      setErrors({ form: cruzResult.error.message || 'Failed to create Cruz.' });
+    const updateResult = await dispatch(updateCruzThunk({ id, cruzData }));
+    if (updateResult.error) {
+      setErrors({ form: updateResult.error.message || 'Failed to update Cruz.' });
       return;
     }
 
-    const cruzId = cruzResult.payload.id;
-
-    // Handle preview image upload
+    // If there's a new preview image, update it
     if (previewImageFile) {
       const imageResult = await dispatch(
-        addCruzImageThunk({ cruzId, imageData: { file: previewImageFile, is_primary: true } })
+        updateCruzImageThunk({
+          cruzId: id,
+          cruzImageId: existingImageId,
+          imageData: { file: previewImageFile, is_primary: true },
+        })
       );
 
       if (imageResult.error) {
-        // Delete the created Cruz if the image upload fails
-        await dispatch(deleteCruzThunk(cruzId));
-        setErrors({ previewImage: imageResult.error.message || 'Invalid image upload.' });
+        setErrors({ previewImage: imageResult.error.message || 'Failed to upload image.' });
         return;
       }
     }
 
-    closeModal();
-    navigate(`/cruz/${cruzId}`);
+    navigate(`/cruz/${id}`);
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
-    <div className="create-cruz-form-container">
-      <h2>Create a New Cruz</h2>
+    <div className="update-cruz-form-container">
+      <h2>Update Cruz</h2>
       {Object.keys(errors).length > 0 && (
         <ul className="error-messages">
           {Object.values(errors).map((error, idx) => (
@@ -157,6 +179,19 @@ function CreateCruzForm() {
           />
         </label>
         <label>
+          Difficulty:
+          <select
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            required
+          >
+            <option value="">Select Difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </label>
+        <label>
           City:
           <input
             type="text"
@@ -175,31 +210,17 @@ function CreateCruzForm() {
           />
         </label>
         <label>
-          Difficulty:
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            required
-          >
-            <option value="">Select Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </label>
-        <label>
           Preview Image:
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            required
           />
         </label>
-        <button type="submit">Create Cruz</button>
+        <button type="submit">Update Cruz</button>
       </form>
     </div>
   );
 }
 
-export default CreateCruzForm;
+export default UpdateCruzForm;

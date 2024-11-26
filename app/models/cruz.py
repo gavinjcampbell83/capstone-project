@@ -18,6 +18,8 @@ class Cruz(db.Model):
     end_lat = db.Column(db.Float, nullable=False)
     end_lng = db.Column(db.Float, nullable=False)
     difficulty = db.Column(db.String(50), nullable=True)
+    city = db.Column(db.String(100))
+    state = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -40,6 +42,8 @@ class Cruz(db.Model):
             "start_lng": self.start_lng,
             "end_lat": self.end_lat,
             "end_lng": self.end_lng,
+            "city": self.city,
+            "state": self.state,
             "created_by": self.created_by,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
