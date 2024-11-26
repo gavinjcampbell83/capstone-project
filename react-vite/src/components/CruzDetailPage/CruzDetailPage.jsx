@@ -31,6 +31,12 @@ function CruzDetailPage() {
     if (error) return <div>Error: {error}</div>;
     if (!cruzDetails) return <div>No Cruz details available.</div>;
 
+    const calculateAverageRating = (reviews) => {
+        if (reviews.length === 0) return 'New';
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return (totalRating / reviews.length).toFixed(1);
+    };
+
     const { start_lat, start_lng, end_lat, end_lng } = cruzDetails;
     const primaryImage = cruzDetails.images.find((img) => img.is_primary)?.image_url || 'default-image.jpg';
 
@@ -78,7 +84,7 @@ function CruzDetailPage() {
                 <h3>
                     ⭐ {reviews.length > 0 ? (
                         <>
-                            {cruzDetails.rating} • {reviews.length}{' '}
+                            {calculateAverageRating(reviews)} • {reviews.length}{' '}
                             {reviews.length === 1 ? 'Review' : 'Reviews'}
                         </>
                     ) : (
