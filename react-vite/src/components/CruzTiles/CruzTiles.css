@@ -1,0 +1,100 @@
+.cruz-tiles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 20px;
+    margin-top: 20px;
+  }
+  
+  .tiles-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .cruz-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .cruz-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cruz-name {
+    font-size: .85rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .cruz-location {
+    font-size: 0.70rem;
+    color: #555;
+    margin: 0;
+  }
+  
+  .cruz-info {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 5px;
+    font-size: 0.70rem;
+    color: #777;
+    margin-bottom: 0;
+  }
+  
+  .star-icon {
+    color: #f4c430;
+  }
+  
+  .dot {
+    margin: 0 5px;
+    color: #555;
+  }
+  
+  .scroll-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .scroll-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .scroll-button:hover {
+    background: #0056b3;
+  }
+
+  .cruz-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .tiles-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tiles-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
