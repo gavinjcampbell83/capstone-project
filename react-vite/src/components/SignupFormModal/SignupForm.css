@@ -1,0 +1,69 @@
+.signup-form-container {
+    width: 100%;
+    max-width: 400px;
+    max-height: 80vh; /* Limit the height of the modal to 80% of the viewport height */
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto; /* Allows vertical scrolling if the content exceeds max-height */
+}
+
+.signup-form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto; /* Ensure form itself is scrollable */
+    flex-grow: 1; /* Ensures form takes up remaining space if modal is smaller */
+}
+
+.signup-form-container form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.signup-form-container form input,
+.signup-form-container form textarea,
+.signup-form-container form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.signup-form-container form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.signup-form-container form button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+  
+  .general-error {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    text-align: center;
+  }

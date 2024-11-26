@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import { Link } from "react-router-dom";
+import "./Navigation.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -33,14 +37,19 @@ function ProfileButton() {
 
   const closeMenu = () => setShowMenu(false);
 
+
   const logout = (e) => {
     e.preventDefault();
-    dispatch(thunkLogout());
-    closeMenu();
+    dispatch(thunkLogout())
+
+    .then(() => {
+      closeMenu();
+      navigate('/')
+    })
   };
 
   return (
-    <>
+    <div style={{position: 'relative'}}>
       <button onClick={toggleMenu}>
         <FaUserCircle />
       </button>
@@ -48,14 +57,20 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
+              <li className="profile-username">{user.username}</li>
+              <li className="profile-email">{user.email}</li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <Link to="/cruz/manage" onClick={closeMenu}>Manage Cruz</Link>
+              </li>
+              <li>
+                <Link to="/cruz/new" onClick={closeMenu}>Create New</Link>
+              </li>
+              <li>
+                <button className="logout-button" onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (
-            <>
+            <div className="no-user">
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
@@ -66,11 +81,11 @@ function ProfileButton() {
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
-            </>
+            </div>
           )}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 
