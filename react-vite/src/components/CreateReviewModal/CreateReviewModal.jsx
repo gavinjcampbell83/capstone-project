@@ -40,7 +40,7 @@ function CreateReviewForm({ cruzId }) {
     if (result.error) {
       setErrors([result.error.message || 'Failed to create review']);
     } else {
-      await dispatch(fetchCruzDetails(cruzId));
+      // await dispatch(fetchCruzDetails(cruzId));
       closeModal();
     }
   };

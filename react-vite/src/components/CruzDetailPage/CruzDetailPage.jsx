@@ -14,6 +14,7 @@ function CruzDetailPage() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { cruzDetails, loading, error } = useSelector((state) => state.cruz);
+    const { reviews } = useSelector((state) => state.review);
     const currentUser = useSelector((state) => state.session.user);
     const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -30,9 +31,8 @@ function CruzDetailPage() {
     if (error) return <div>Error: {error}</div>;
     if (!cruzDetails) return <div>No Cruz details available.</div>;
 
-    const { start_lat, start_lng, end_lat, end_lng, reviews } = cruzDetails;
+    const { start_lat, start_lng, end_lat, end_lng } = cruzDetails;
     const primaryImage = cruzDetails.images.find((img) => img.is_primary)?.image_url || 'default-image.jpg';
-    // const secondaryImages = cruzDetails.images.filter((img) => !img.is_primary).slice(0, 4);
 
     const isCruzOwner = currentUser?.id === cruzDetails.creator.id;
     const userHasPostedReview = reviews.some((review) => review.user_id === currentUser?.id);
@@ -76,10 +76,10 @@ function CruzDetailPage() {
 
             <section className="review-section">
                 <h3>
-                    ⭐ {cruzDetails.reviews.length > 0 ? (
+                    ⭐ {reviews.length > 0 ? (
                         <>
-                            {cruzDetails.rating} • {cruzDetails.reviews.length}{' '}
-                            {cruzDetails.reviews.length === 1 ? 'Review' : 'Reviews'}
+                            {cruzDetails.rating} • {reviews.length}{' '}
+                            {reviews.length === 1 ? 'Review' : 'Reviews'}
                         </>
                     ) : (
                         <>New</>
@@ -95,36 +95,33 @@ function CruzDetailPage() {
 
                 <div className="reviews-list">
                     {reviews.length > 0 ? (
-                        reviews
-                            .slice()
-                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                            .map((review) => (
-                                <div key={review.id} className="review">
-                                    <div className="review-details">
-                                        <p>
-                                            <strong>{review.user.firstName}</strong> -{' '}
-                                            {new Date(review.created_at).toLocaleDateString('en-US', {
-                                                month: 'long',
-                                                year: 'numeric',
-                                            })}
-                                        </p>
-                                        <p>{review.review_text}</p>
-                                    </div>
-
-                                    {currentUser?.id === review.user_id && (
-                                        <div className="review-actions">
-                                            <OpenModalButton
-                                                buttonText="Edit"
-                                                modalComponent={<UpdateReviewModal reviewId={review.id} cruzId={id} />}
-                                            />
-                                            <OpenModalButton
-                                                buttonText="Delete"
-                                                modalComponent={<DeleteReviewModal reviewId={review.id} cruzId={id} />}
-                                            />
-                                        </div>
-                                    )}
+                        reviews.map((review) => (
+                            <div key={review.id} className="review">
+                                <div className="review-details">
+                                    <p>
+                                        <strong>{review.user.firstName}</strong> -{' '}
+                                        {new Date(review.created_at).toLocaleDateString('en-US', {
+                                            month: 'long',
+                                            year: 'numeric',
+                                        })}
+                                    </p>
+                                    <p>{review.review_text}</p>
                                 </div>
-                            ))
+
+                                {currentUser?.id === review.user_id && (
+                                    <div className="review-actions">
+                                        <OpenModalButton
+                                            buttonText="Edit"
+                                            modalComponent={<UpdateReviewModal reviewId={review.id} cruzId={id} />}
+                                        />
+                                        <OpenModalButton
+                                            buttonText="Delete"
+                                            modalComponent={<DeleteReviewModal reviewId={review.id} cruzId={id} />}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        ))
                     ) : (
                         <div>Be the first to post a review!</div>
                     )}

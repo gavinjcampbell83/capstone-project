@@ -43,7 +43,7 @@ function UpdateReviewModal({ cruzId, reviewId }) {
         if (result.error) {
             setServerError(result.error.message || "Failed to update review.");
         } else {
-            await dispatch(fetchCruzDetails(cruzId));
+            // await dispatch(fetchCruzDetails(cruzId));
             closeModal();
         }
     };
