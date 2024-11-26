@@ -10,7 +10,7 @@ function DeleteReviewModal({ reviewId, cruzId }) {
 
     const handleDelete = async () => {
         await dispatch(deleteReview(reviewId));
-        await dispatch(fetchCruzDetails(cruzId));
+        // await dispatch(fetchCruzDetails(cruzId));
         closeModal();
     };
 
