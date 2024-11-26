@@ -10,7 +10,7 @@ class ReviewImage(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'), nullable=False)
+    review_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('reviews.id')), nullable=False)
     image_url = db.Column(db.Text, nullable=False)
     is_primary = db.Column(db.Boolean, default=False)
     alt_text = db.Column(db.Text)

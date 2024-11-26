@@ -6,6 +6,9 @@ from datetime import datetime
 class CruzImage(db.Model):
     __tablename__ = 'cruz_images'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     cruz_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('cruz.id')), nullable=False)
     image_url = db.Column(db.Text, nullable=False)
