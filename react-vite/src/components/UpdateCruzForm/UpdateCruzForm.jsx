@@ -135,6 +135,7 @@ function UpdateCruzForm() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Name your cruz"
             required
           />
         </label>
@@ -145,6 +146,7 @@ function UpdateCruzForm() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe things you enjoy about this cruz"
             required
           />
         </label>
@@ -157,11 +159,12 @@ function UpdateCruzForm() {
             step="0.0001"
             value={startLat}
             onChange={(e) => setStartLat(e.target.value)}
+            placeholder="-90.0000 and 90.0000"
             required
           />
         </label>
         {errors.startLat && <p className="error-message">{errors.startLat}</p>}
-
+        {errors.coordinates && <p className="error-message">{errors.coordinates}</p>}
         <label>
           Start Longitude:
           <input
@@ -169,11 +172,12 @@ function UpdateCruzForm() {
             step="0.0001"
             value={startLng}
             onChange={(e) => setStartLng(e.target.value)}
+            placeholder="-180.0000 and 180.0000"
             required
           />
         </label>
         {errors.startLng && <p className="error-message">{errors.startLng}</p>}
-
+        {errors.coordinates && <p className="error-message">{errors.coordinates}</p>}
         <label>
           End Latitude:
           <input
@@ -181,11 +185,12 @@ function UpdateCruzForm() {
             step="0.0001"
             value={endLat}
             onChange={(e) => setEndLat(e.target.value)}
+            placeholder="-90.0000 and 90.0000, must be different than start"
             required
           />
         </label>
         {errors.endLat && <p className="error-message">{errors.endLat}</p>}
-
+        {errors.coordinates && <p className="error-message">{errors.coordinates}</p>}
         <label>
           End Longitude:
           <input
@@ -193,11 +198,12 @@ function UpdateCruzForm() {
             step="0.0001"
             value={endLng}
             onChange={(e) => setEndLng(e.target.value)}
+            placeholder="-180.0000 and 180.0000, must be different than start"
             required
           />
         </label>
         {errors.endLng && <p className="error-message">{errors.endLng}</p>}
-
+        {errors.coordinates && <p className="error-message">{errors.coordinates}</p>}
         <label>
           Difficulty:
           <select
@@ -219,6 +225,7 @@ function UpdateCruzForm() {
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            placeholder="City where the cruz is located"
             required
           />
         </label>
@@ -230,13 +237,15 @@ function UpdateCruzForm() {
             type="text"
             value={state}
             onChange={(e) => setState(e.target.value)}
+            placeholder="State where the cruz is located"
             required
           />
         </label>
         {errors.state && <p className="error-message">{errors.state}</p>}
 
         <label>
-          Preview Image:
+          Preview Image: 
+          <label>(If you wish to keep current photo, no selection is required)</label>
           <input
             type="file"
             accept="image/*"
