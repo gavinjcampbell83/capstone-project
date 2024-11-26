@@ -28,8 +28,8 @@ def upgrade():
     op.execute("UPDATE users SET last_name = 'DefaultLastName' WHERE last_name IS NULL")
 
     with op.batch_alter_table('users', schema=SCHEMA if environment == "production" else None) as batch_op:
-        batch_op.add_column(sa.Column('first_name', sa.String(length=40), nullable=True))
-        batch_op.add_column(sa.Column('last_name', sa.String(length=40), nullable=True))
+        batch_op.add_column(sa.Column('first_name', sa.String(length=40), nullable=False))
+        batch_op.add_column(sa.Column('last_name', sa.String(length=40), nullable=False))
 
     # ### end Alembic commands ###
 
