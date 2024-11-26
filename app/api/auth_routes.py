@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -50,17 +50,29 @@ def sign_up():
     """
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    
     if form.validate_on_submit():
         user = User(
             username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            first_name=form.data.get('first_name'),
+            last_name=form.data.get('last_name'),
+            bio=form.data.get('bio', ''),
+            latitude=form.data.get('latitude') or None,
+            longitude=form.data.get('longitude') or None,
+            city=form.data.get('city'),
+            state=form.data.get('state'),
+            country=form.data.get('country')
         )
+        
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict()
-    return form.errors, 401
+        
+        return jsonify(user.to_dict()), 201
+    
+    return form.errors, 400
 
 
 @auth_routes.route('/unauthorized')

@@ -33,7 +33,6 @@ function CruzTiles() {
               <div className="cruz-tile" 
               key={cruz.id}
               onClick={() => {
-                console.log("Navigating to Cruz ID:", cruz.id);
                 navigate(`/cruz/${cruz.id}`);
               }}
               >

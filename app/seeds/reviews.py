@@ -4,7 +4,7 @@ from datetime import datetime
 
 def seed_reviews():
     review_1 = Review(
-        user_id=1,
+        user_id=3,
         cruz_id=1,
         rating=5,
         review_text="This was an amazing experience! The views were breathtaking, and the route was easy to follow.",

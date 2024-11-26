@@ -43,7 +43,11 @@ const CruzManagementPage = () => {
             : "New";
 
           return (
-            <div key={cruz.id} className="cruz-tile">
+            <div 
+              key={cruz.id} 
+              className="cruz-tile" 
+              onClick={() => navigate(`/cruz/${cruz.id}`)} // Navigate to CruzDetailPage
+            >
               <div className="image-container">
                 <img
                   src={primaryImage}
@@ -61,7 +65,10 @@ const CruzManagementPage = () => {
                 </div>
                 <div className="cruz-location">{`${cruz.city || "Unknown City"}, ${cruz.state || "Unknown State"}`}</div>
                 <button
-                  onClick={() => navigate(`/cruz/${cruz.id}/edit`)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering the parent onClick
+                    navigate(`/cruz/${cruz.id}/edit`);
+                  }}
                   className="edit-button"
                 >
                   Edit
@@ -72,6 +79,7 @@ const CruzManagementPage = () => {
                   }
                   buttonText="Delete"
                   className="delete-button"
+                  onClick={(e) => e.stopPropagation()} // Prevent triggering the parent onClick
                 />
               </div>
             </div>
