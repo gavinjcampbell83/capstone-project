@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
@@ -10,7 +11,7 @@ import "./Navigation.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -43,6 +44,7 @@ function ProfileButton() {
 
     .then(() => {
       closeMenu();
+      navigate('/')
     })
   };
 
@@ -58,10 +60,10 @@ function ProfileButton() {
               <li className="profile-username">{user.username}</li>
               <li className="profile-email">{user.email}</li>
               <li>
-                <Link to="/cruz/manage">Manage Cruz</Link>
+                <Link to="/cruz/manage" onClick={closeMenu}>Manage Cruz</Link>
               </li>
               <li>
-                <Link to="/cruz/new">Create New</Link>
+                <Link to="/cruz/new" onClick={closeMenu}>Create New</Link>
               </li>
               <li>
                 <button className="logout-button" onClick={logout}>Log Out</button>

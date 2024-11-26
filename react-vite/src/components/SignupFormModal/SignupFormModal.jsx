@@ -100,7 +100,7 @@ function SignupFormModal() {
       setErrors(resultAction.payload || { server: "An unexpected error occurred." });
     }
   };
-console.log(errors)
+
   return (
     <div className="signup-form-container">
       <h1>Sign Up</h1>

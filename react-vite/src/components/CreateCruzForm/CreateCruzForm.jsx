@@ -33,12 +33,24 @@ function CreateCruzForm() {
     const validationErrors = {};
 
     // Validate required fields
-    if (!name) validationErrors.name = 'Name is required.';
-    if (!description) validationErrors.description = 'Description is required.';
+    if (!name || name.length < 2 || name.length > 100) {
+      validationErrors.name = 'Name must be between 2 and 100 characters.';
+    }
+    if (!description || description.length < 10 || description.length > 500) {
+      validationErrors.description = 'Description must be between 10 and 500 characters.';
+    }
     if (!startLat || !startLng || !endLat || !endLng)
       validationErrors.coordinates = 'All latitude and longitude fields are required.';
     if (startLat === endLat && startLng === endLng)
       validationErrors.coordinates = 'Start and end points cannot be the same.';
+    if (startLat < -90 || startLat > 90)
+      validationErrors.startLat = 'startLat must be between -90 and 90.';
+    if (startLng < -180 || startLng > 180)
+      validationErrors.startLng = 'startLng must be between -180 and 180.';
+    if (endLat < -90 || endLat > 90)
+      validationErrors.endLat = 'endLat must be between -90 and 90.';
+    if (endLng < -180 || endLng > 180)
+      validationErrors.endLng = 'endLng must be between -180 and 180.';
     if (!city) validationErrors.city = 'City is required.';
     if (!state) validationErrors.state = 'State is required.';
     if (!difficulty) validationErrors.difficulty = 'Difficulty is required.';
@@ -70,14 +82,12 @@ function CreateCruzForm() {
 
     const cruzId = cruzResult.payload.id;
 
-    // Handle preview image upload
     if (previewImageFile) {
       const imageResult = await dispatch(
         addCruzImageThunk({ cruzId, imageData: { file: previewImageFile, is_primary: true } })
       );
 
       if (imageResult.error) {
-        // Delete the created Cruz if the image upload fails
         await dispatch(deleteCruzThunk(cruzId));
         setErrors({ previewImage: imageResult.error.message || 'Invalid image upload.' });
         return;
@@ -86,18 +96,11 @@ function CreateCruzForm() {
 
     closeModal();
     navigate(`/cruz/${cruzId}`);
-  };
-
+  }
   return (
     <div className="create-cruz-form-container">
       <h2>Create a New Cruz</h2>
-      {Object.keys(errors).length > 0 && (
-        <ul className="error-messages">
-          {Object.values(errors).map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-      )}
+      {errors.server && <p className="error-message general-error">{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -108,6 +111,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.name && <p className="error-message">{errors.name}</p>}
+
         <label>
           Description:
           <textarea
@@ -116,6 +121,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.description && <p className="error-message">{errors.description}</p>}
+
         <label>
           Start Latitude:
           <input
@@ -126,6 +133,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.startLat && <p className="error-message">{errors.startLat}</p>}
+
         <label>
           Start Longitude:
           <input
@@ -136,6 +145,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.startLng && <p className="error-message">{errors.startLng}</p>}
+
         <label>
           End Latitude:
           <input
@@ -146,6 +157,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.endLat && <p className="error-message">{errors.endLat}</p>}
+
         <label>
           End Longitude:
           <input
@@ -156,6 +169,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.endLng && <p className="error-message">{errors.endLng}</p>}
+
         <label>
           City:
           <input
@@ -165,6 +180,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.city && <p className="error-message">{errors.city}</p>}
+
         <label>
           State:
           <input
@@ -174,6 +191,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.state && <p className="error-message">{errors.state}</p>}
+
         <label>
           Difficulty:
           <select
@@ -187,6 +206,8 @@ function CreateCruzForm() {
             <option value="Hard">Hard</option>
           </select>
         </label>
+        {errors.difficulty && <p className="error-message">{errors.difficulty}</p>}
+
         <label>
           Preview Image:
           <input
@@ -196,6 +217,8 @@ function CreateCruzForm() {
             required
           />
         </label>
+        {errors.previewImage && <p className="error-message">{errors.previewImage}</p>}
+
         <button type="submit">Create Cruz</button>
       </form>
     </div>

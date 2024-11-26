@@ -5,8 +5,18 @@
 }
 
 .cruz-header {
-    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.header-left {
+    text-align: left;
+}
+
+.header-right {
+    text-align: right;
 }
 
 .cruz-header h1 {
@@ -25,82 +35,27 @@
     margin-bottom: 30px;
 }
 
-.images-section {
+.image-section,
+.map-section {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .primary-image {
     width: 100%;
     height: auto;
+    max-height: 500px;
     border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.secondary-images {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.secondary-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+    object-fit: cover;
 }
 
 .map-section {
     flex: 1;
-    text-align: center;
-}
-
-.map-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.description-section {
-    margin-bottom: 30px;
-}
-
-.description-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.description-section p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #333;
-}
-
-.review-section {
-    margin-top: 20px;
-}
-
-.reviews-list {
-    margin-top: 10px;
-}
-
-.review {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.review-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 5px;
-}
-
-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
+    justify-content: center;
+    align-items: center;
+    max-height: 500px;
+    overflow: hidden;
 }

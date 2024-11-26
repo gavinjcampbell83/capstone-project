@@ -12,11 +12,9 @@ const CruzManagementPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Select the current user's Cruz from the state
   const cruzList = useSelector((state) => state.cruz.cruzList);
   const currentUser = useSelector((state) => state.session.user);
 
-  // Filter Cruz list for those created by the current user
   const userCruz = cruzList.filter((cruz) => cruz.created_by === currentUser.id);
 
   useEffect(() => {
@@ -46,27 +44,27 @@ const CruzManagementPage = () => {
             <div 
               key={cruz.id} 
               className="cruz-tile" 
-              onClick={() => navigate(`/cruz/${cruz.id}`)} // Navigate to CruzDetailPage
             >
               <div className="image-container">
                 <img
                   src={primaryImage}
                   alt={cruz.name}
                   className="cruz-image"
+                  onClick={() => navigate(`/cruz/${cruz.id}`)}
                 />
               </div>
               <div className="cruz-details">
                 <div className="cruz-details-wrapper">
                   <h3>{cruz.name}</h3>
                   <span className="cruz-rating">
-                    {averageRating}
-                    {averageRating !== "New" && <FaStar className="single-star" />}
+                  <FaStar className="star-icon" />
+                  <span>{averageRating}</span>
                   </span>
                 </div>
                 <div className="cruz-location">{`${cruz.city || "Unknown City"}, ${cruz.state || "Unknown State"}`}</div>
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering the parent onClick
+                    e.stopPropagation();
                     navigate(`/cruz/${cruz.id}/edit`);
                   }}
                   className="edit-button"
@@ -79,7 +77,7 @@ const CruzManagementPage = () => {
                   }
                   buttonText="Delete"
                   className="delete-button"
-                  onClick={(e) => e.stopPropagation()} // Prevent triggering the parent onClick
+                  onClick={(e) => e.stopPropagation()}
                 />
               </div>
             </div>

@@ -21,7 +21,7 @@ function CruzDetailPage() {
         async function fetchData() {
             await dispatch(fetchCruzDetails(id));
             await dispatch(fetchReviews(id));
-            setDataLoaded(true); // Indicate that data is fully loaded
+            setDataLoaded(true);
         }
         fetchData();
     }, [dispatch, id]);
@@ -32,7 +32,7 @@ function CruzDetailPage() {
 
     const { start_lat, start_lng, end_lat, end_lng, reviews } = cruzDetails;
     const primaryImage = cruzDetails.images.find((img) => img.is_primary)?.image_url || 'default-image.jpg';
-    const secondaryImages = cruzDetails.images.filter((img) => !img.is_primary).slice(0, 4);
+    // const secondaryImages = cruzDetails.images.filter((img) => !img.is_primary).slice(0, 4);
 
     const isCruzOwner = currentUser?.id === cruzDetails.creator.id;
     const userHasPostedReview = reviews.some((review) => review.user_id === currentUser?.id);
@@ -40,50 +40,51 @@ function CruzDetailPage() {
     return (
         <div className="cruz-detail-page">
             <header className="cruz-header">
-                <h1>{cruzDetails.name}</h1>
-                <p>{`${cruzDetails.city}, ${cruzDetails.state}`}</p>
+                <div className="header-left">
+                    <h1>{cruzDetails.name}</h1>
+                    <p>{`${cruzDetails.city}, ${cruzDetails.state}`}</p>
+                </div>
+                <div className="header-right">
+                    <h2>Route Map</h2>
+                </div>
             </header>
 
             <section className="content-section">
-                <div className="images-section">
+                <div className="image-section">
                     <img src={primaryImage} alt={cruzDetails.name} className="primary-image" />
-                    <div className="secondary-images">
-                        {secondaryImages.map((image, index) => (
-                            <img key={index} src={image.image_url} alt={`Secondary ${index}`} className="secondary-image" />
-                        ))}
-                    </div>
                 </div>
                 <div className="map-section">
-                    <h2>Route Map</h2>
                     {start_lat && start_lng && end_lat && end_lng ? (
-                    <MapComponent
-                        startLat={start_lat}
-                        startLng={start_lng}
-                        endLat={end_lat}
-                        endLng={end_lng}
-                    />
-                ) : (
-                    <p>Map data is not available.</p>
-                )}
+                        <MapComponent
+                            startLat={start_lat}
+                            startLng={start_lng}
+                            endLat={end_lat}
+                            endLng={end_lng}
+                        />
+                    ) : (
+                        <p>Map data is not available.</p>
+                    )}
                 </div>
             </section>
 
             <section className="description-section">
                 <h2>Description</h2>
                 <p>{cruzDetails.description}</p>
+                <p><strong>Difficulty:</strong> {cruzDetails.difficulty}</p>
+                <p><strong>Created by:</strong> {cruzDetails.creator.username}</p>
             </section>
 
             <section className="review-section">
-            <h3>
-                ⭐ {cruzDetails.reviews.length > 0 ? (
-                <>
-                    {cruzDetails.rating} • {cruzDetails.reviews.length}{' '}
-                    {cruzDetails.reviews.length === 1 ? 'Review' : 'Reviews'}
-                </>
-                ) : (
-                <>New</>
-                 )}
-            </h3>
+                <h3>
+                    ⭐ {cruzDetails.reviews.length > 0 ? (
+                        <>
+                            {cruzDetails.rating} • {cruzDetails.reviews.length}{' '}
+                            {cruzDetails.reviews.length === 1 ? 'Review' : 'Reviews'}
+                        </>
+                    ) : (
+                        <>New</>
+                    )}
+                </h3>
 
                 {currentUser && !isCruzOwner && !userHasPostedReview && (
                     <OpenModalButton
@@ -114,7 +115,6 @@ function CruzDetailPage() {
                                         <div className="review-actions">
                                             <OpenModalButton
                                                 buttonText="Edit"
-                                                {...console.log('Review.id in cruz details', review.id)}
                                                 modalComponent={<UpdateReviewModal reviewId={review.id} cruzId={id} />}
                                             />
                                             <OpenModalButton
