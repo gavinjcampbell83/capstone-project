@@ -17,7 +17,7 @@ function CruzDetailPage() {
     const { reviews } = useSelector((state) => state.review);
     const currentUser = useSelector((state) => state.session.user);
     const [dataLoaded, setDataLoaded] = useState(false);
-
+    console.log (reviews)
     useEffect(() => {
         async function fetchData() {
             await dispatch(fetchCruzDetails(id));
@@ -47,8 +47,7 @@ function CruzDetailPage() {
         <div className="cruz-detail-page">
             <header className="cruz-header">
                 <div className="header-left">
-                    <h1>{cruzDetails.name}</h1>
-                    <p>{`${cruzDetails.city}, ${cruzDetails.state}`}</p>
+                    <h2>{cruzDetails.name}</h2>
                 </div>
                 <div className="header-right">
                     <h2>Route Map</h2>
@@ -74,8 +73,8 @@ function CruzDetailPage() {
             </section>
 
             <section className="description-section">
-                <h2>Description</h2>
                 <p>{cruzDetails.description}</p>
+                <p><strong>Location:</strong>{` ${cruzDetails.city}, ${cruzDetails.state}`}</p>
                 <p><strong>Difficulty:</strong> {cruzDetails.difficulty}</p>
                 <p><strong>Created by:</strong> {cruzDetails.creator.username}</p>
             </section>
@@ -105,13 +104,12 @@ function CruzDetailPage() {
                             <div key={review.id} className="review">
                                 <div className="review-details">
                                     <p>
-                                        <strong>{review.user.firstName}</strong> -{' '}
                                         {new Date(review.created_at).toLocaleDateString('en-US', {
                                             month: 'long',
                                             year: 'numeric',
                                         })}
                                     </p>
-                                    <p>{review.review_text}</p>
+                                    <p><strong>{review.user.first_name}</strong> -{' '}{review.review_text}</p>
                                 </div>
 
                                 {currentUser?.id === review.user_id && (

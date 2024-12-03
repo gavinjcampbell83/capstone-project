@@ -56,6 +56,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 500px;
+    max-height: 350px;
     overflow: hidden;
+    border-radius: 10px;
+}
+
+.description-section {
+    font-size: x-small;
+}
+
+.reviews-list .review {
+    padding: 16px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.reviews-list .review:last-child {
+    border-bottom: none;
 }
