@@ -49,7 +49,7 @@ function Navigation() {
 
         {user && (
           <li className="icon-container">
-            <button  title="Feature coming soon" onClick={() => navigate("")}>
+            <button onClick={() => navigate("/favorites")}>
               <FaBookmark />
             </button>
             <span className="tooltip-text">Favorites</span>
@@ -73,7 +73,8 @@ function Navigation() {
 
       <div className="search-container">
         <h1 className="welcome-text">
-          It&apos;s a great day to Cruz{user ? `, ${user.username}` : ""}
+          It&apos;s a great day to Cruz{user ? `, ${user.first_name
+}` : ""}
         </h1>
         <input type="text" placeholder="Find a cruz near you(feature coming soon)..." className="search-bar" title="Feature coming soon" />
       </div>

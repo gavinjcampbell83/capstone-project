@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { GoogleMap, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
-
+console.log('VITE Key:', import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'Key Not Found');
 const MapComponent = ({ startLat, startLng, endLat, endLng }) => {
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -32,6 +32,7 @@ const MapComponent = ({ startLat, startLng, endLat, endLng }) => {
         return <p>Loading map...</p>;
     }
 
+    
     const mapContainerStyle = {
         width: '100%',
         height: '500px',

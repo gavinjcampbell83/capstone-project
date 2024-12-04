@@ -20,7 +20,7 @@ def create_review(cruz_id):
 
     if form.validate_on_submit():
         review = Review(
-            user_id=current_user.id,  # Use the logged-in user's ID
+            user_id=current_user.id,
             cruz_id=cruz_id,
             rating=form.rating.data,
             review_text=form.review_text.data
@@ -38,7 +38,7 @@ def update_review(review_id):
     review = Review.query.get(review_id)
     if not review:
         return jsonify({"error": "Review not found"}), 404
-    if review.user_id != current_user.id:  # Ensure only the owner can update
+    if review.user_id != current_user.id:
         return jsonify({"error": "Unauthorized"}), 403
 
     form = ReviewForm()
