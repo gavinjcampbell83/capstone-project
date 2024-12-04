@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCruzDetails } from '../../redux/cruzSlice';
 import { fetchReviews } from '../../redux/reviewSlice';
+import { addFavorite, removeFavorite } from '../../redux/favoritesSlice'; // Import favorite actions
+import { FaBookmark } from "react-icons/fa"; // Bookmark icon
 import MapComponent from '../MapComponent/MapComponent';
 import OpenModalButton from '../OpenModalButton';
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
@@ -15,9 +17,10 @@ function CruzDetailPage() {
     const dispatch = useDispatch();
     const { cruzDetails, loading, error } = useSelector((state) => state.cruz);
     const { reviews } = useSelector((state) => state.review);
+    const favorites = useSelector((state) => state.favorites.favorites);
     const currentUser = useSelector((state) => state.session.user);
     const [dataLoaded, setDataLoaded] = useState(false);
-    console.log (reviews)
+
     useEffect(() => {
         async function fetchData() {
             await dispatch(fetchCruzDetails(id));
@@ -40,6 +43,15 @@ function CruzDetailPage() {
     const { start_lat, start_lng, end_lat, end_lng } = cruzDetails;
     const primaryImage = cruzDetails.images.find((img) => img.is_primary)?.image_url || 'default-image.jpg';
 
+    const isFavorited = favorites[cruzDetails.id];
+    const handleFavoriteClick = () => {
+        if (isFavorited) {
+            dispatch(removeFavorite(cruzDetails.id));
+        } else {
+            dispatch(addFavorite(cruzDetails.id));
+        }
+    };
+
     const isCruzOwner = currentUser?.id === cruzDetails.creator.id;
     const userHasPostedReview = reviews.some((review) => review.user_id === currentUser?.id);
 
@@ -50,13 +62,21 @@ function CruzDetailPage() {
                     <h2>{cruzDetails.name}</h2>
                 </div>
                 <div className="header-right">
-                    <h2>Route Map</h2>
+                    <h2>Cruz Map</h2>
                 </div>
             </header>
 
             <section className="content-section">
                 <div className="image-section">
-                    <img src={primaryImage} alt={cruzDetails.name} className="primary-image" />
+                    <div className="image-wrapper">
+                        <img src={primaryImage} alt={cruzDetails.name} className="primary-image" />
+                        {currentUser && (
+                            <FaBookmark
+                                className={`bookmark-icon ${isFavorited ? 'favorited' : ''}`}
+                                onClick={handleFavoriteClick}
+                            />
+                        )}
+                    </div>
                 </div>
                 <div className="map-section">
                     {start_lat && start_lng && end_lat && end_lng ? (

@@ -113,18 +113,16 @@ def add_cruz_image(cruz_id):
         new_image = CruzImage(
             image_url=upload_response["url"],
             cruz_id=cruz_id,
-            is_primary=form.is_primary.data,  # Correctly extract the value
-            alt_text=file.filename,  # Optional: use the file name as alt_text
-            order=None  # Can be set to auto-assign an order if needed
+            is_primary=form.is_primary.data,
+            alt_text=file.filename,
+            order=None
         )
 
-        # Save the new image to the database
         db.session.add(new_image)
         db.session.commit()
 
         return jsonify(new_image.to_dict()), 201
 
-    # If the form is invalid, return errors
     return jsonify({"message": "Bad Request", "errors": form.errors}), 400
 
 
@@ -153,10 +151,8 @@ def update_cruz_image(cruz_id, cruz_image_id):
         if "error" in upload_response:
             return jsonify({"message": "Error uploading file", "error": upload_response["error"]}), 400
 
-        # Remove the old image from S3
         remove_file_from_s3(image.image_url)
 
-        # Update the image record
         image.image_url = upload_response["url"]
         image.is_primary = form.is_primary.data
         db.session.commit()

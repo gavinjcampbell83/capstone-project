@@ -7,6 +7,7 @@ import CruzDetailPage from '../components/CruzDetailPage/CruzDetailPage';
 import CreateCruzForm from '../components/CreateCruzForm/CreateCruzForm';
 import CruzManagementPage from '../components/CruzManagementPage/CruzManagementPage';
 import UpdateCruzForm from '../components/UpdateCruzForm/UpdateCruzForm';
+import FavoritesPage from '../components/FavoritesPage/FavoritesPage';
 // import MapComponent from '../components/MapComponent/MapComponent';
 
 export const router = createBrowserRouter([
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: "/cruz/:id/edit",
         element: <UpdateCruzForm />,
+      },
+      {
+        path: "/favorites",
+        element: <FavoritesPage />,
       },
       {
         path: "*",

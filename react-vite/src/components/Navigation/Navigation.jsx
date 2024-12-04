@@ -49,7 +49,7 @@ function Navigation() {
 
         {user && (
           <li className="icon-container">
-            <button  title="Feature coming soon" onClick={() => navigate("")}>
+            <button onClick={() => navigate("/favorites")}>
               <FaBookmark />
             </button>
             <span className="tooltip-text">Favorites</span>

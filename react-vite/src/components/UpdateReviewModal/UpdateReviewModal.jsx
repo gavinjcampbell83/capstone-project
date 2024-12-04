@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal.jsx';
 import { updateReview } from "../../redux/reviewSlice";
-import { fetchCruzDetails } from '../../redux/cruzSlice';
 import './UpdateReviewModal.css';
 
-function UpdateReviewModal({ cruzId, reviewId }) {
+function UpdateReviewModal({ reviewId }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 

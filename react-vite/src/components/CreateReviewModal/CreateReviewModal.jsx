@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReview } from '../../redux/reviewSlice';
-import { fetchCruzDetails } from '../../redux/cruzSlice';
 import './CreateReviewModal.css';
 import { useModal } from '../../context/Modal';
 
