@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.cruz_routes import cruz_routes
 from .api.review_routes import review_routes
 from .api.favorites_routes import favorite_routes
+from .api.follower_routes import follower_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -34,6 +35,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(cruz_routes, url_prefix='/api/cruz')
 app.register_blueprint(review_routes, url_prefix='/api/reviews')
 app.register_blueprint(favorite_routes, url_prefix='/api/favorites')
+app.register_blueprint(follower_routes, url_prefix='/api/followers')
 db.init_app(app)
 Migrate(app, db)
 

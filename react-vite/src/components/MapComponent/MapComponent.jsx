@@ -35,7 +35,7 @@ const MapComponent = ({ startLat, startLng, endLat, endLng }) => {
     
     const mapContainerStyle = {
         width: '100%',
-        height: '500px',
+        height: '400px',
     };
 
     const center = { lat: startLat || 0, lng: startLng || 0 };

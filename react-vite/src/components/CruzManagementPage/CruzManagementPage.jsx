@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { fetchAllCruz } from "../../redux/cruzSlice";
 import OpenModalButton from "../OpenModalButton";
 import DeleteCruzModal from "../DeleteCruzModal/DeleteCruzModal";
-import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "./CruzManagementPage.css";
 
@@ -26,9 +25,9 @@ const CruzManagementPage = () => {
   };
 
   return (
-    <div className="cruz-container">
+    <div className="cruz-management-container">
       {userCruz.length === 0 ? (
-        <div className="no-cruz-container">
+        <div className="no-cruz-management-container">
           <p>You have not created any Cruz yet.</p>
           <Link to="/cruz/new">Create New Cruz</Link>
         </div>
@@ -41,44 +40,45 @@ const CruzManagementPage = () => {
             : "New";
 
           return (
-            <div 
-              key={cruz.id} 
-              className="cruz-tile" 
-            >
-              <div className="image-container">
+            <div key={cruz.id} className="cruz-management-tile">
+              <div className="cruz-management-image-container">
                 <img
                   src={primaryImage}
                   alt={cruz.name}
-                  className="cruz-image"
+                  className="cruz-management-image"
                   onClick={() => navigate(`/cruz/${cruz.id}`)}
                 />
               </div>
-              <div className="cruz-details">
-                <div className="cruz-details-wrapper">
-                  <h3>{cruz.name}</h3>
-                  <span className="cruz-rating">
-                  <FaStar className="star-icon" />
-                  <span>{averageRating}</span>
-                  </span>
-                </div>
-                <div className="cruz-location">{`${cruz.city || "Unknown City"}, ${cruz.state || "Unknown State"}`}</div>
-                <button
-                  onClick={(e) => {
+            <div className="cruz-management-details">
+            <div className="cruz-management-details-wrapper">
+              <h3>{cruz.name}</h3>
+              <span className="cruz-management-rating">
+                <FaStar className="star-icon" />
+                {averageRating}
+              </span>
+            </div>
+              <div className="cruz-management-location">
+                {`${cruz.city || "Unknown City"}, ${cruz.state || "Unknown State"}`}
+              </div>
+                <div className="cruz-management-buttons">
+                  <button
+                    onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/cruz/${cruz.id}/edit`);
-                  }}
-                  className="edit-button"
-                >
-                  Edit
-                </button>
-                <OpenModalButton
-                  modalComponent={
-                    <DeleteCruzModal cruzId={cruz.id} onDelete={handleCruzDelete} />
-                  }
-                  buttonText="Delete"
-                  className="delete-button"
-                  onClick={(e) => e.stopPropagation()}
-                />
+                    }}
+                    className="management-edit-button"
+                    >
+                    Edit
+                  </button>
+                      <OpenModalButton
+                      modalComponent={
+                      <DeleteCruzModal cruzId={cruz.id} onDelete={handleCruzDelete} />
+                      }
+                      buttonText="Delete"
+                      className="management-delete-button"
+                      onClick={(e) => e.stopPropagation()}
+                      />
+                  </div>
               </div>
             </div>
           );

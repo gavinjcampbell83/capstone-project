@@ -7,11 +7,22 @@ from sqlalchemy.exc import SQLAlchemyError
 
 cruz_routes = Blueprint('cruz', __name__)
 
-# Get all Cruz
+# Get all Cruz with optional filtering by city and state
 @cruz_routes.route('/', methods=['GET'])
 def get_all_cruzs():
     try:
-        cruzs = Cruz.query.all()
+        city = request.args.get('city', None)  # Get city from query params
+        state = request.args.get('state', None)  # Get state from query params
+
+        query = Cruz.query
+
+        # Apply filters if query parameters are provided
+        if city:
+            query = query.filter(Cruz.city.ilike(f"%{city}%"))
+        if state:
+            query = query.filter(Cruz.state.ilike(f"%{state}%"))
+
+        cruzs = query.all()  # Execute query
         return jsonify([cruz.to_dict() for cruz in cruzs]), 200
     except SQLAlchemyError as e:
         return jsonify({"error": str(e)}), 500
@@ -104,6 +115,7 @@ def add_cruz_image(cruz_id):
     if form.validate_on_submit():
         file = form.image.data
         upload_response = upload_file_to_s3(file)
+        print('\n\nUPLOAD RESPONSE', upload_response, '\n\n')
 
         # Check for upload errors
         if "errors" in upload_response:
@@ -147,6 +159,7 @@ def update_cruz_image(cruz_id, cruz_image_id):
     if form.validate_on_submit():
         file = form.image.data
         upload_response = upload_file_to_s3(file)
+        print('\n\nUPLOAD RESPONSE', upload_response, '\n\n')
 
         if "error" in upload_response:
             return jsonify({"message": "Error uploading file", "error": upload_response["error"]}), 400
