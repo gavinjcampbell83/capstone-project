@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
+from .follower import Follower
 from flask_login import UserMixin
 from datetime import datetime
 
@@ -33,16 +34,18 @@ class User(db.Model, UserMixin):
     favorites = db.relationship('Favorite', back_populates='user', cascade='all, delete-orphan')
     followers = db.relationship(
         'Follower',
-        foreign_keys='Follower.follower_id',
-        back_populates='follower',
-        cascade='all, delete-orphan'
-    )
-    followed = db.relationship(
-        'Follower',
         foreign_keys='Follower.followed_id',
         back_populates='followed',
         cascade='all, delete-orphan'
     )
+
+# Users this user is following
+    following = db.relationship(
+        'Follower',
+        foreign_keys='Follower.follower_id',
+        back_populates='follower',
+        cascade='all, delete-orphan'
+)
 
     @property
     def password(self):
@@ -54,9 +57,18 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def is_following(self, user_id):
+        return Follower.query.filter_by(follower_id=self.id, followed_id=user_id).count() > 0
 
-    def to_dict(self):
-        return {
+    def get_followers(self):
+        return Follower.query.filter_by(followed_id=self.id).all()
+
+    def get_following(self):
+        return Follower.query.filter_by(follower_id=self.id).all()
+
+    def to_dict(self, include_follow_details=False):
+        base_dict = {
             "id": self.id,
             "username": self.username,
             "first_name": self.first_name,
@@ -73,5 +85,11 @@ class User(db.Model, UserMixin):
             "last_longitude": self.last_longitude,
             "last_location_updated_at": self.last_location_updated_at.isoformat() if self.last_location_updated_at else None,
             "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
+            "updated_at": self.updated_at.isoformat(),
+            "followers_count": len(self.followers),
+            "following_count": len(self.following),
         }
+        if include_follow_details:
+            base_dict["followers"] = [f.follower_id for f in self.followers]
+            base_dict["following"] = [f.followed_id for f in self.following]
+        return base_dict

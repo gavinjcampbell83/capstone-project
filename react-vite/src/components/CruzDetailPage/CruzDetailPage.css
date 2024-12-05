@@ -43,12 +43,13 @@
     align-items: center;
 }
 
+
 .primary-image {
     width: 100%;
-    height: auto;
+    height: 393px;
     max-height: 500px;
     border-radius: 10px;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .map-section {
@@ -56,9 +57,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 350px;
+    max-height: 393px;
     overflow: hidden;
-    border-radius: 10px;
+    object-fit: fill;
+    border-radius: 15px;
 }
 
 .description-section {
@@ -83,15 +85,65 @@
     top: 10px;
     right: 10px;
     font-size: 1.8rem;
-    color: #fff; /* Default color when not favorited */
+    color: #fff;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .bookmark-icon.favorited {
-    color: black; /* Color when favorited */
+    color: black;
 }
 
 .bookmark-icon:hover {
-    opacity: 0.8; /* Hover effect */
+    opacity: 0.8;
+}
+
+
+
+@media (max-width: 768px) {
+    .cruz-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .content-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .image-section,
+    .map-section {
+        max-height: none;
+    }
+
+    .primary-image {
+        height: auto;
+    }
+
+    .description-section {
+        font-size: small;
+    }
+
+    .cruz-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cruz-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .content-section {
+        gap: 10px;
+    }
+
+    .description-section {
+        font-size: x-small;
+    }
+
+    .bookmark-icon {
+        font-size: 1.5rem;
+    }
 }

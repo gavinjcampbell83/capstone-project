@@ -34,7 +34,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 4px;
@@ -43,7 +43,9 @@
   }
   
   .update-cruz-form-container form button:hover {
-    background-color: #0056b3;
+    background-color: whitesmoke;
+    color: black;
+    border: 2px, solid, black;
   }
   
   .error-messages {
@@ -51,3 +53,63 @@
     margin-bottom: 15px;
     font-size: 0.9rem;
   }
+
+  @media (max-width: 768px) {
+    .update-cruz-form-container {
+        padding: 15px;
+    }
+
+    .update-cruz-form-container h2 {
+        font-size: 1.3rem;
+    }
+
+    .update-cruz-form-container form label {
+        font-size: 0.9rem;
+    }
+
+    .update-cruz-form-container form input,
+    .update-cruz-form-container form textarea,
+    .update-cruz-form-container form select {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .update-cruz-form-container form button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .error-message {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .update-cruz-form-container {
+        padding: 10px;
+    }
+
+    .update-cruz-form-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .update-cruz-form-container form label {
+        font-size: 0.8rem;
+    }
+
+    .update-cruz-form-container form input,
+    .update-cruz-form-container form textarea,
+    .update-cruz-form-container form select {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .update-cruz-form-container form button {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .error-message {
+        font-size: 0.7rem;
+    }
+}

@@ -142,17 +142,45 @@ export const updateCruzImageThunk = createAsyncThunk(
   }
 );
 
+export const fetchCruzBySearch = createAsyncThunk(
+  'cruz/fetchCruzBySearch',
+  async ({ city, state }, { rejectWithValue }) => {
+    try {
+      let url = '/api/cruz?';
+      if (city) url += `city=${encodeURIComponent(city)}&`;
+      if (state) url += `state=${encodeURIComponent(state)}`;
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await response.json();
+      return data; // The list of filtered Cruz
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 const cruzSlice = createSlice({
   name: 'cruz',
   initialState: {
     cruzList: [],
+    filteredCruz: [],
     cruzDetails: null,
     images: {},
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    // Set the filtered Cruz
+    setFilteredCruz(state, action) {
+      state.filteredCruz = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch All Cruz
@@ -163,6 +191,7 @@ const cruzSlice = createSlice({
       .addCase(fetchAllCruz.fulfilled, (state, action) => {
         state.loading = false;
         state.cruzList = action.payload;
+        state.filteredCruz = action.payload;
       })
       .addCase(fetchAllCruz.rejected, (state, action) => {
         state.loading = false;
@@ -181,6 +210,20 @@ const cruzSlice = createSlice({
       .addCase(fetchCruzDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to fetch Cruz details';
+      })
+
+      // Fetch Cruz By Search
+      .addCase(fetchCruzBySearch.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCruzBySearch.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cruzList = action.payload;
+      })
+      .addCase(fetchCruzBySearch.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch Cruz by search.';
       })
 
       // Create Cruz
@@ -272,4 +315,5 @@ const cruzSlice = createSlice({
   },
 });
 
+export const { setFilteredCruz } = cruzSlice.actions;
 export default cruzSlice.reducer;

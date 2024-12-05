@@ -152,15 +152,74 @@
 }
 
 .search-bar {
-  width: 50%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 5px;
+  width: 60%;
+  height: 85%;
+  padding: 8px 20px;
+  font-size: 1.1rem;
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
 
+.search-bar:focus {
+  outline: none;
+  border-color: #6fb3fc;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.5);
+}
+
+.search-button {
+  padding: 7px 10px;
+  height: 85%;
+  font-size: 1rem;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.search-button:hover {
+  background-color: whitesmoke;
+  transform: scale(1.05);
+  color: black;
+  border: 2px, solid, black;
+}
+
+.search-button:active {
+  transform: scale(0.95);
+  background-color: #003d80;
+}
+
+.clear-button {
+  padding: 8px 10px;
+  height: 85%;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.clear-button:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.05);
+  border: 2px, solid, black;
+}
+
+.clear-button:active {
+  transform: scale(0.95);
+}
 .welcome-text {
   font-size: 1.9rem;
   color: white;

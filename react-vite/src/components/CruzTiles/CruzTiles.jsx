@@ -9,10 +9,11 @@ import "./CruzTiles.css";
 function CruzTiles() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { cruzList, loading, error } = useSelector((state) => state.cruz);
+    const { filteredCruz, loading, error } = useSelector((state) => state.cruz); // Use filteredCruz from Redux
     const favorites = useSelector((state) => state.favorites.favorites);
-    const currentUser = useSelector((state) => state.session.user); // Access current user state
+    const currentUser = useSelector((state) => state.session.user);
 
+    // Fetch all Cruz when the component mounts
     useEffect(() => {
         dispatch(fetchAllCruz());
     }, [dispatch]);
@@ -20,10 +21,14 @@ function CruzTiles() {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    if (filteredCruz.length === 0) {
+        return <p>No Cruz found in the state you searched. Please try a different state.</p>;
+    }
+
     return (
         <div className="cruz-tiles-container">
             <div className="tiles-wrapper">
-                {cruzList.map((cruz) => {
+                {filteredCruz.map((cruz) => {
                     const primaryImage = cruz.images.find((img) => img.is_primary)?.image_url || 'default-image-url.jpg';
                     const averageRating = cruz.reviews.length
                         ? (cruz.reviews.reduce((sum, review) => sum + review.rating, 0) / cruz.reviews.length).toFixed(1)
