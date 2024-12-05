@@ -14,12 +14,8 @@ class Follower(db.Model):
     followed_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    __table_args__ = (
-        db.UniqueConstraint('follower_id', 'followed_id', name='unique_follow_relationship'),
-    )
-
-    follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following')
-    followed = db.relationship('User', foreign_keys=[followed_id], back_populates='followers')
+    follower = db.relationship('User', foreign_keys=[follower_id], back_populates='followers')
+    followed = db.relationship('User', foreign_keys=[followed_id], back_populates='followed')
 
 
     def to_dict(self):
@@ -28,4 +24,6 @@ class Follower(db.Model):
             "follower_id": self.follower_id,
             "followed_id": self.followed_id,
             "created_at": self.created_at.isoformat(),
+            "follower": self.follower.to_dict() if self.follower else None,
+            "followed": self.followed.to_dict() if self.followed else None
         }
