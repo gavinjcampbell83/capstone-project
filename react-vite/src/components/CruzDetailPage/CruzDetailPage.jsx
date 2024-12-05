@@ -136,10 +136,12 @@ function CruzDetailPage() {
                                     <div className="review-actions">
                                         <OpenModalButton
                                             buttonText="Edit"
+                                            className="edit-button"
                                             modalComponent={<UpdateReviewModal reviewId={review.id} cruzId={id} />}
                                         />
                                         <OpenModalButton
                                             buttonText="Delete"
+                                            className="delete-button"
                                             modalComponent={<DeleteReviewModal reviewId={review.id} cruzId={id} />}
                                         />
                                     </div>
