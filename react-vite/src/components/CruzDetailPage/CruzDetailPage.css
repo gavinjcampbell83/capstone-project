@@ -43,6 +43,42 @@
     align-items: center;
 }
 
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-actions .edit-button,
+.review-actions .delete-button {
+    background-color: #007BFF; 
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.review-actions .delete-button {
+    background-color: #DC3545; 
+}
+
+.review-actions .edit-button:hover,
+.review-actions .delete-button:hover {
+    background-color: #0056b3;
+}
+
+.review-actions .delete-button:hover {
+    background-color: #c82333;
+}
+
+.review-actions .edit-button:focus,
+.review-actions .delete-button:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+}
 
 .primary-image {
     width: 100%;
@@ -64,7 +100,7 @@
 }
 
 .description-section {
-    font-size: x-small;
+    font-size: small;
 }
 
 .reviews-list .review {
