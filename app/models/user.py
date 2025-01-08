@@ -55,8 +55,16 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def to_dict(self):
-        return {
+    @property
+    def follower_count(self):
+        return self.followers.count()
+
+    @property
+    def following_count(self):
+        return self.followed.count()
+
+    def to_dict(self, include_follow_counts=False):
+        user_dict = {
             "id": self.id,
             "username": self.username,
             "first_name": self.first_name,
@@ -75,3 +83,11 @@ class User(db.Model, UserMixin):
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat()
         }
+
+        if include_follow_counts:
+            user_dict.update({
+                "follower_count": self.follower_count,
+                "following_count": self.following_count
+            })
+
+        return user_dict
