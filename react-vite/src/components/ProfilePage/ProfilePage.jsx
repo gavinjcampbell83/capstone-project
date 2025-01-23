@@ -1,1 +1,1 @@
-//profile page need to work on layout/design
+//profile page need to work on layout/design implementing followers
